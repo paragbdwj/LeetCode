@@ -1,0 +1,131 @@
+Data structures
+In a recent conversation, I realised that some of the more basic data structures have some non-intuitive behaviour. This is, of course, an excellent excuse to waffle on about the guarantees that a well-implemented data structure gives you, as well what it DOESN'T give you. The time complexity is estimated for a data structure with n elements.
+I am noting down time complexity in so-called "Big O" notation. This, approximately, describe how the time to do a given task grows with the size of the input. Roughly speaking, O(1) is "constant time", O(n) is "linear time" (where doubling the size of the input means it takes double the time), O(n^2) is "quadratic time" (doubling the size of input will require quadruple time) and O(2^n) is "exponential time" (where adding one item to process will require double the time).
+
+I am also choosing to only consider "time complexity", rather than "space complexity" (another possible complexity measure), mostly because time complexity is usually the more interesting complexity (especially with the size of storage these days).
+
+Linked list
+Operation	Time complexity
+Adding an element at head	O(1)
+Adding an internal element	O(n)
+Changing an element at head	O(1)
+Changing an internal element	O(1)
+Removing an element at head	O(1)
+Removing an internal element	O(n)
+Retrieving the Nth element	O(n)
+
+This is your average single-linked list, a humble, simple data structure composed of nodes containing one item of data and one pointer to the next node in the list. It can be used to build more complex data structures. Note that a linked list can trivially be used as a stack by adding and removing elements at the list head, where doing so is cheap.
+
+The cost for changing an internal element is based on already having a pointer to it, if you need to find the element first, the cost for retrieving the element is also taken.
+
+To remove an internal element, you need to scan the list to find the preceeding element, to change its tail pointer. Similarly for adding an internal element (in some situations, you can amortise this cost by keeping track of the preceeding element as you follow the tail pointers, then you can get away with inserting the new element at O(1)).
+
+The single-linked list is order-preserving (that is, you can rely on the list being in the same order when you scan through it, unless you've explicitly re-ordered it)
+
+Double-linked list
+Operation	Time complexity
+Adding an element at head	O(1)
+Adding an internal element	O(1)
+Changing an element at head	O(1)
+Changing an internal element	O(1)
+Removing an element at head	O(1)
+Removing an internal element	O(1)
+Retrieving the Nth element	O(n)
+
+The double-linked list is a bit more complex than the sigle-linked list. It keeps a value and pointers to preceding and following nodes. This means that some operations is faster than with a single-linked list, but there's a constant overhead, both in storage and in time, whenever a list modification happens.
+
+The double-linked list is order-preserving (that is, you can trust it to be in the same order unless you've explicitly re-ordered it).
+
+Variants on single- and double-linked lists
+Both kinds of lists can have an associated "list header" node that contains pointers to the first and last elements of the list it concerns. With this in place, adding or changing an element in the "tail" position is O(1) and for a double-linked list it is also O(1) to remove an element in a tail position.
+Vector/one-dimensional array
+Operation	Time complexity
+Adding an element at head	O(n)
+Adding an internal element	O(n)
+Changing an element at head	O(1)
+Changing an internal element	O(1)
+Removing an element at head	O(n)
+Removing an internal element	O(n)
+Retrieving the Nth element	O(1)
+
+The array is a contigous area of memory, with the mth element placed m*size octets from the start of the array. This means that any addition or removal of elements require memory copies, making size-changing operations expensive. In a scenario where elements are occasionally added to the array, in the "tail" position, the cost of doing so can be amortised by doubling the size of the array allocation and manually keeping track of where the end is supposed to be, turning the O(n) cost of adding an element into an amortised O(1).
+
+The vector is order-preserving (that is, you can trust it to stay in the same order unless you explicitly re-order it).
+
+Hash table
+Operation	Time complexity
+Adding an element at head	O(1)
+Adding an internal element	O(1)
+Changing an element at head	O(1)
+Changing an internal element	O(1)
+Removing an element at head	O(1)
+Removing an internal element	O(1)
+Retrieving the Nth element	O(1)
+
+The hash table is not (really) O(1), it's just amortised O(1), any specific operation can take longer, but on average, adding, removing and changing elements is O(1).
+
+The hash table is not order-preserving, there is no guarantee that two traversals of all elements will return them in the same order. However, it is (usually) the case that two traversals with no added, removed or changed elements will have the same order (this MAY be different in garbage-collecting languages, if memory location is used as the thing to be hashed, as each access after GC would require a re-hash).
+
+I have taken the liberty to interpret "head position" as "key that would be sorted lower than any other key", but since hash tables are not order-preserving, it doesn't make much sense.
+
+"Simple" string
+Operation	Time complexity
+Adding an element at head	O(n)
+Adding an internal element	O(n)
+Changing an element at head	O(1)
+Changing an internal element	O(1)
+Removing an element at head	O(n)
+Removing an internal element	O(n)
+Retrieving the Nth element	O(1)
+
+With a "simple" string, I am referring to a string where each character is stored in the same amount of storage. This (usually) means that you're talking about single-byte strings (though some languages use UCS4 to store in-memory strings, converting to and from external storage formats on I/O). A "simple" string is essentially a vector of characters, although some environments will attach more information to strings than they do to vectors. In essence, however, the performance guarantees of a "simple" string is those of a vector.
+"Complex" string
+
+Operation	Time complexity
+Adding an element at head	O(n)
+Adding an internal element	O(n)
+Changing an element at head	O(n)
+Changing an internal element	O(n)
+Removing an element at head	O(n)
+Removing an internal element	O(n)
+Retrieving the Nth element	O(n)
+
+With a "complex" string, I am referring to a string storage scheme that uses something like UTF-8 to store strings in memory. While more compact than storing strings in UCS4, it does mean that it is no longer trivial to index into the string. Some of the convenience of the "simple" string scheme can be brought back with careful use of helper functions (usually in the form of some sort of iteration library).
+Heap
+
+Operation	Time complexity
+Adding an element at head	O(log n)
+Adding an internal element	O(log n)
+Changing an element at head	n/a
+Changing an internal element	n/a
+Removing an element at head	O(log n)
+Removing an internal element	n/a
+Retrieving the Nth element	n/a
+
+A heap is a recursive, treelike data struvture with one guarantee. The root of a heap is "smaller" than the leaf heaps. There is no guarantee that there's any ordering between the sub-heaps. With some implementation strategies, balancing the size of the sub-heaps is (essentially) instrinsic, but there's no guarantee of that either.
+The only way to retrieve the Nth element would be to remove the N first elements, remember the value of the Nth and then put them all back together.
+
+It does not make (much) sense changing heap-stored elements, so I have marked that as "not applicable".
+
+Balanced binary tree
+Operation	Time complexity
+Adding an element at head	O(lg n)
+Adding an internal element	O(lg n)
+Changing an element at head	O(lg n)
+Changing an internal element	O(lg n)
+Removing an element at head	O(lg n)
+Removing an internal element	O(lg n)
+Retrieving the Nth element	O(lg n)
+
+"Change" doesn't, quite, make sense for these, if you expect "change" to mean "change the key value". Changing other than what we're expecting to use as a key is, however, possible.
+In many respects, a heap is a specialised binary tree.
+
+Data structure
+Operation	Time complexity
+Adding an element at head	O()
+Adding an internal element	O()
+Changing an element at head	O()
+Changing an internal element	O()
+Removing an element at head	O()
+Removing an internal element	O()
+Retrieving the Nth element	O()
