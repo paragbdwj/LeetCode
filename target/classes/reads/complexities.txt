@@ -120,7 +120,7 @@ Retrieving the Nth element	O(lg n)
 "Change" doesn't, quite, make sense for these, if you expect "change" to mean "change the key value". Changing other than what we're expecting to use as a key is, however, possible.
 In many respects, a heap is a specialised binary tree.
 
-Data structure
+X Data structure
 Operation	Time complexity
 Adding an element at head	O()
 Adding an internal element	O()
