@@ -1,0 +1,100 @@
+Design a simplified version of Facebook where users can create/delete posts, follow/unfollow another user and are able to see the most recent posts in the user's news feed. Following methods to be implemented:
+
+1. createPost(userld,content):
+    1. Compose a new post.
+2. getNewsFeed(userld):
+    1. Retrieve the 10 most recent post ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself (Order -> most to least recent)
+3. follow(followerld, followeeld):
+    1. Follower follows a followee.
+4. deletePost(userId, postId) :
+    1. delete post of a user
+5. unfollow(followerld, followeeld): [bonus]
+    1. Follower unfollows a followee.
+
+**Mandatory use case:**
+
+1. createPost(userld,content):
+2. getNewsFeed(userld):
+3. follow(followerld, followeeld):
+4. deletePost(userId, postId) :
+
+**Bonus Use case:**
+
+1. unfollow(followerld, followeeld):
+
+**Things to take care of:**
+
+- You are free to use the language of your choice.
+- You are free to use the IDE of your choice.
+- Do not use any database or NoSQL store, use in-memory store for now.
+- Do not create any UI for the application.
+- Do not create any API for the application.
+- Write a driver class for demo purposes. Which will execute all the commands at one place in the code and test cases.
+- The code should be executable (no compiler errors)
+- Demonstration of all the functionalities is important.
+- Complete coding within the duration of 60 minutes.
+- Use intuitive variable names, function names, class names etc.
+- All work should be your own. If found otherwise, you may be disqualified.
+- **Bonus will be considered only if the required functionality is working.**
+
+**Good to have:**
+
+- Modular and clean code.
+- Proper naming convention
+- Bonus case implementation
+
+**Note**: **Please focus on the Bonus Feature only after ensuring the required features are complete and demoable.**
+
+**Test case 1:**
+
+// Create User A
+
+// Create User B
+
+// Create User C
+
+// Create User D
+
+// User A follows B
+
+// User A follows C
+
+// User A follows D
+
+// User A creates a post
+
+// User A creates another post
+
+// User B creates a post
+
+// User C creates a post
+
+// User D creates a post
+
+// Get new feed for User A
+
+Result: User D post, User C post, User B post, User A post, User A post
+
+**Test case 2:**
+
+All the test cases of test case 1.
+
++
+
+// User B deletes the post
+
+// Get new feed for User A
+
+Result: User D post, User C post, User A post, User A post
+
+**Test case 3:**
+
+All the test cases of test case 1.
+
++
+
+// User A unfollows User C
+
+// Get new feed for User A
+
+Result: User D post, User B post, User A post, User A post
