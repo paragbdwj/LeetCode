@@ -5,7 +5,7 @@ public class Abstraction {
         public int a;
         abstract void f();
         void g() {
-            System.out.printf("I am in the non-abstract method");
+            System.out.println("I am in the non-abstract method");
         }
     }
 

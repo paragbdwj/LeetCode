@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class P03082024_1460 {
+public class P030824_1460 {
 
     public boolean canBeEqual(int[] target, int[] arr) {
         assert target.length == arr.length;
